@@ -1,6 +1,13 @@
 require 'jwt'
 class ApplicationController < ActionController::API
 
+  # VALIDATE ROLE USER
+
+  def is_admin?
+    render status: :unauthorized and return unless current_user.admin?
+  end
+
+  # AUTH TOKEN 
   def token(user_id)
     JWT.encode({user_id: user_id}, hmac_secret, 'HS256')
   end
@@ -9,16 +16,22 @@ class ApplicationController < ActionController::API
     ENV["API_SECRET_KEY"]
   end
 
+  def valid_token?
+    render status: :unauthorized and return unless decode_token
+  end
+
   def current_user
+    User.find(decode_token['user_id'])
+  end
+
+  def decode_token 
     begin
       token = request.headers["Authorization"].split(' ')[1]
       decoded_array = JWT.decode(token, hmac_secret, true, { algorithm: 'HS256' })
-      payload = decoded_array.first
+      decoded_array.first
     rescue 
-      render json: {error: 'Unauthorized'}, status: :unauthorized  
-      return 
+      return false
     end
-    User.find(payload['user_id'])
   end
 
   def auth_user?

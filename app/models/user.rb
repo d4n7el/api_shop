@@ -7,4 +7,5 @@ class User < ApplicationRecord
   validates :email, presence: true,uniqueness: true, format: { with: VALID_EMAIL_REGEX }
 
   enum role: {admin: 1 , owner: 2, seller: 3, customer: 4}
+  enum status: {active: 1 , inactive: 2}
 end
