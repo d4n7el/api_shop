@@ -7,6 +7,16 @@ class ApplicationController < ActionController::API
     render status: :unauthorized and return unless current_user.admin?
   end
 
+  def is_owner?
+    render status: :unauthorized and return unless current_user.owner?
+  end
+
+  # OWNER PERMIT CREATE USER
+
+  def owner_create_user_permit_role?
+    render status: :unauthorized and return unless params[:role] === 'customer' || params[:role] === 'seller'
+  end
+
   # AUTH TOKEN 
   def token(user_id)
     JWT.encode({user_id: user_id}, hmac_secret, 'HS256')
