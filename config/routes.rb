@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-  post 'user_token' => 'user_token#create'
-
   post "/signin", to: "login#create"
+  post "/signup", to: "users#create"
+  
+  resources :users, only: [:update, :edit]
 
   namespace :admin do
     post "/signup", to: "users#create"
