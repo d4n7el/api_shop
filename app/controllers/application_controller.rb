@@ -11,6 +11,14 @@ class ApplicationController < ActionController::API
     render status: :unauthorized and return unless current_user.owner?
   end
 
+  def is_seller?
+    render status: :unauthorized and return unless current_user.seller?
+  end
+
+  def is_customer?
+    render status: :unauthorized and return unless current_user.customer?
+  end
+
   # OWNER PERMIT CREATE USER
 
   def owner_create_user_permit_role?

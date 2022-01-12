@@ -17,7 +17,7 @@ Rails.application.routes.draw do
 
   namespace :seller do
     resources :users, only: [:update, :edit]
-    resources :stores, only: [:edit]
+    resources :stores, only: [:index]
   end
 
   namespace :customer do
