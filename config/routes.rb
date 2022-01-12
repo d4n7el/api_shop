@@ -20,4 +20,8 @@ Rails.application.routes.draw do
     resources :stores, only: [:edit]
   end
 
+  namespace :customer do
+    resources :users, only: [:update, :edit]
+  end
+
 end
