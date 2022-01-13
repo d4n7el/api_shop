@@ -27,7 +27,7 @@ class ApplicationController < ActionController::API
 
   # AUTH TOKEN 
   def token(user_id)
-    JWT.encode({user_id: user_id}, hmac_secret, 'HS256')
+    JWT.encode({user_id: user_id, time: ( DateTime.now + 1.day ).to_i}, hmac_secret, 'HS256')
   end
 
   def hmac_secret
@@ -35,7 +35,9 @@ class ApplicationController < ActionController::API
   end
 
   def valid_token?
+    token = decode_token
     render status: :unauthorized and return unless decode_token
+    render status: :not_acceptable and return if Time.at(token['time']) < Time.now
   end
 
   def current_user
