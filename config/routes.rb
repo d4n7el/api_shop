@@ -2,12 +2,11 @@ Rails.application.routes.draw do
   post "/signin", to: "login#create"
   post "/signup", to: "users#create"
   
-  resources :users, only: [:update, :edit]
-
   namespace :admin do
     post "/signup", to: "users#create"
-    resources :users, only: [:index, :update, :edit]
+    resources :users, only: [:create, :index, :update, :edit]
     resources :stores, only: [:create, :index, :update, :edit]
+    resources :categories, only: [:create, :index, :update, :edit]
   end
 
   namespace :owner do
