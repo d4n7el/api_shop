@@ -12,11 +12,13 @@ Rails.application.routes.draw do
   namespace :owner do
     resources :users, only: [:index, :create, :update, :edit]
     resources :stores, only: [:update, :edit]
+    resources :categories, only: [:create, :index, :update, :edit]
   end
 
   namespace :seller do
     resources :users, only: [:update, :edit]
     resources :stores, only: [:index]
+    resources :categories, only: [:index]
   end
 
   namespace :customer do
