@@ -4,10 +4,10 @@ class Seller::ProductsController < ApplicationController
   before_action :set_product, only: [:edit]
 
   def index 
-    products = Products.all
-    render json: stores, status: :ok
+    products = Category.find_by(store_id: @user.store_id).products
+    render json: products, status: :ok
   end
-
+  
   def edit
     render json: @product, status: :ok
   end
